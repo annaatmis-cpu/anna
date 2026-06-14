@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sensia Nova</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F5F0EA;
+  --cream2:#EDE7DE;
+  --blue-slate:#6B8BA4;
+  --blue-dark:#4A6578;
+  --gold:#C9A84C;
+  --gold-light:#E8D5A0;
+  --text:#3D4F5C;
+  --muted:#8A9BA8;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 2.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.nav-star{color:var(--gold);font-size:0.7rem;margin-bottom:0.1rem;display:block;text-align:center;width:100%}
+.nav-logo{font-family:'Jost',sans-serif;font-weight:200;font-size:0.85rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text)}
+.nav-links{display:flex;gap:2.2rem;align-items:center}
+.nav-links a{font-size:0.72rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:var(--text);text-decoration:none;opacity:0.75;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{background:var(--blue-slate);color:#fff;font-size:0.72rem;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;padding:0.65rem 1.5rem;border-radius:999px;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:var(--blue-dark)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* FIX 1: removed flex:1 so hero-top no longer swallows the entire viewport
+          reduced top padding from 7rem → 5rem to remove dead space above content */
+.hero-top{padding:5rem 3.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;z-index:2}
+
+.hero-left{}
+.hero-title{font-family:'Jost',sans-serif;font-weight:200;font-size:clamp(3.5rem,7vw,6rem);line-height:0.95;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);margin-bottom:1.8rem}
+.hero-title-star{color:var(--gold);font-size:0.5em;vertical-align:super;margin-left:2px}
+.hero-rule{width:36px;height:1px;background:var(--gold);margin-bottom:1.6rem}
+.hero-tagline{font-size:0.72rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--text);line-height:1.9;margin-bottom:1rem;opacity:0.85}
+.hero-sub{font-size:0.9rem;font-weight:300;color:var(--muted);line-height:1.75;margin-bottom:2.2rem;max-width:320px}
+.hero-btn{display:inline-block;border:1px solid var(--blue-slate);color:var(--blue-slate);font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:300;letter-spacing:0.16em;text-transform:uppercase;padding:0.9rem 2rem;border-radius:999px;text-decoration:none;transition:all 0.25s}
+.hero-btn:hover{background:var(--blue-slate);color:#fff}
+
+/* CELESTIAL SVG */
+/* FIX 2: reduced height from 440px → 320px so SVG column matches text column better */
+.hero-right{display:flex;align-items:center;justify-content:center;position:relative;height:320px}
+.celestial{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+
+/* BEACH PHOTO */
+/* FIX 3: increased height from 280px → 42vh with a min so it's always generous on desktop */
+/* FIX 4: changed object-position from center 40% → center 25% to show more of the scene */
+.hero-beach{position:relative;z-index:1;height:42vh;min-height:320px;overflow:hidden;flex:1}
+.hero-beach::before{content:'';position:absolute;top:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,var(--cream),transparent);z-index:2}
+.beach-img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:brightness(1.05) saturate(0.75)}
+.beach-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(180,195,210,0.35) 100%);z-index:1}
+.malaga-tag{position:absolute;bottom:3rem;right:3rem;z-index:3;display:flex;flex-direction:column;align-items:center;gap:0.4rem}
+.malaga-label{font-size:0.65rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--text);opacity:0.7}
+.malaga-heart{color:var(--blue-slate);font-size:1rem;opacity:0.6}
+
+/* PILLARS */
+.pillars{background:rgba(180,200,215,0.2);backdrop-filter:blur(4px);padding:2.2rem 3.5rem;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(107,139,164,0.15)}
+.pillar{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:0 1rem;position:relative}
+.pillar+.pillar::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:50%;width:1px;background:rgba(107,139,164,0.2)}
+.pillar-icon{width:48px;height:48px;border-radius:50%;border:1px solid rgba(107,139,164,0.35);display:flex;align-items:center;justify-content:center}
+.pillar-title{font-size:0.68rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--text)}
+.pillar-sub{font-size:0.75rem;font-weight:300;color:var(--muted);letter-spacing:0.06em}
+
+/* FREEBIE */
+.freebie{padding:6rem 3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1100px;margin:0 auto}
+.guide-card{background:linear-gradient(145deg,#EBE3D8,#D8E4EE);border-radius:16px 24px 24px 16px;aspect-ratio:3/4;max-width:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;position:relative;overflow:hidden;box-shadow:10px 16px 40px rgba(74,101,120,0.12)}
+.guide-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:12px;background:linear-gradient(to right,rgba(0,0,0,0.08),transparent)}
+.guide-card-star{color:var(--gold);font-size:1.4rem;margin-bottom:1rem}
+.guide-card-tag{font-size:0.65rem;font-weight:300;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem}
+.guide-card-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1.6rem;line-height:1.3;color:var(--text);text-align:center;margin-bottom:1rem}
+.guide-card-rule{width:28px;height:1px;background:var(--gold);margin:0 auto 1rem}
+.guide-card-by{font-size:0.65rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.guide-card-badge{position:absolute;top:1.2rem;right:1.2rem;background:var(--gold);color:#fff;font-size:0.62rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:999px}
+
+.freebie-text .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
+.freebie-text .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
+.freebie-text h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(2rem,3vw,2.8rem);line-height:1.2;color:var(--text);margin-bottom:1.2rem}
+.freebie-text p{font-size:0.88rem;font-weight:300;color:var(--muted);line-height:1.85;margin-bottom:2rem}
+.feat-list{list-style:none;margin-bottom:2.2rem}
+.feat-list li{font-size:0.85rem;font-weight:300;color:var(--text);padding:0.7rem 0;border-bottom:1px solid rgba(107,139,164,0.12);display:flex;align-items:center;gap:0.7rem;opacity:0.85}
+.feat-list li:first-child{border-top:1px solid rgba(107,139,164,0.12)}
+.feat-star{color:var(--gold);font-size:0.55rem;flex-shrink:0}
+
+.optin{display:flex;flex-direction:column;gap:0.6rem}
+.optin input{font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;padding:0.85rem 1.3rem;border:1px solid rgba(107,139,164,0.3);background:rgba(255,255,255,0.6);color:var(--text);border-radius:999px;outline:none;transition:border-color 0.2s;letter-spacing:0.02em}
+.optin input:focus{border-color:var(--blue-slate)}
+.optin input::placeholder{color:var(--muted)}
+.optin button{background:var(--blue-slate);color:#fff;font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;padding:0.95rem;border-radius:999px;border:none;cursor:pointer;transition:background 0.25s}
+.optin button:hover{background:var(--blue-dark)}
+.optin-note{font-size:0.7rem;color:var(--muted);font-weight:300;margin-top:0.4rem;text-align:center;letter-spacing:0.04em}
+.success{display:none;padding:1.2rem;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:12px;text-align:center;font-size:0.85rem;color:var(--gold);font-weight:300;letter-spacing:0.04em}
+
+/* ABOUT */
+.about{background:linear-gradient(160deg,#EAE3D8,#D8E3EC);padding:6rem 3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:100%}
+.about-img-wrap{display:flex;justify-content:center}
+.about-img{width:280px;height:360px;background:linear-gradient(145deg,var(--blue-slate),#8AABBD);border-radius:140px 140px 100px 100px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;opacity:0.9}
+.about-letter{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:7rem;font-weight:300;color:rgba(255,255,255,0.8)}
+.about-img::after{content:'✦';position:absolute;bottom:1.5rem;right:1.5rem;color:rgba(201,168,76,0.7);font-size:1rem}
+.about-text .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
+.about-text .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
+.about-text h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.8rem,2.8vw,2.6rem);line-height:1.2;color:var(--text);margin-bottom:1.2rem}
+.about-text p{font-size:0.88rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:0.9rem}
+
+/* CONNECT */
+.connect{padding:5rem 2rem;text-align:center;background:var(--cream);position:relative;overflow:hidden}
+.connect-star-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.04;font-size:40rem;color:var(--gold);pointer-events:none;line-height:1}
+.connect .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;gap:0.6rem;position:relative;z-index:1}
+.connect .eyebrow::before,.connect .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
+.connect h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(2rem,4vw,3.5rem);color:var(--text);margin-bottom:0.8rem;position:relative;z-index:1}
+.connect p{font-size:0.85rem;font-weight:300;color:var(--muted);margin-bottom:2.5rem;letter-spacing:0.04em;position:relative;z-index:1}
+.social-row{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.social-btn{color:var(--blue-slate);font-size:0.72rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;padding:0.75rem 1.8rem;border-radius:999px;text-decoration:none;border:1px solid rgba(107,139,164,0.4);transition:all 0.25s}
+.social-btn:hover{background:var(--blue-slate);color:#fff;border-color:var(--blue-slate)}
+
+/* FOOTER */
+footer{padding:1.5rem 3.5rem;border-top:1px solid rgba(107,139,164,0.15);display:flex;align-items:center;justify-content:space-between;background:var(--cream)}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start}
+.footer-star{color:var(--gold);font-size:0.6rem;margin-bottom:0.1rem}
+.footer-logo{font-size:0.78rem;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;color:var(--text)}
+.footer-copy{font-size:0.7rem;color:var(--muted);font-weight:300;letter-spacing:0.06em}
+
+/* FIX 5: mobile override — restore original beach height and SVG height, unchanged from before */
+@media(max-width:720px){
+  nav{padding:1rem 1.2rem}
+  .nav-links{display:none}
+  .hero-top{grid-template-columns:1fr;padding:6rem 1.5rem 2rem}
+  .hero-right{height:280px}
+  .hero-beach{height:280px;min-height:0;flex:none}
+  .pillars{padding:1.5rem;gap:0}
+  .freebie,.about{grid-template-columns:1fr;padding:4rem 1.5rem;gap:2.5rem;max-width:100%}
+  .guide-card{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-star">✦</span>
+    <span class="nav-logo">Sensia Nova</span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">Über mich</a>
+    <a href="#freebie">Workbook</a>
+    <a href="#freebie">Ressourcen</a>
+    <a href="#connect">Kontakt</a>
+  </div>
+  <a href="#freebie" class="nav-cta">Workbook erhalten</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-left">
+      <div class="hero-title">SENSIA<br/>NOVA<span class="hero-title-star">✦</span></div>
+      <div class="hero-rule"></div>
+      <div class="hero-tagline">Sensibel. Nova. Stern.<br/>Für neurodiverse Menschen.</div>
+      <p class="hero-sub">Ein Ort für Verständnis, Wachstum und ein Leben im Einklang mit dir selbst.</p>
+      <a href="#about" class="hero-btn">Mehr über Sensia Nova</a>
+    </div>
+    <div class="hero-right">
+      <!-- Celestial SVG -->
+      <svg class="celestial" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Dotted orbit ring -->
+        <g opacity="0.55">
+          <circle cx="190" cy="190" r="140" stroke="#C9A84C" stroke-width="0" fill="none"/>
+          <!-- dots along orbit -->
+          <script>/* dots rendered below */</script>
+          <!-- manually placed dots forming a circle -->
+          <circle cx="330" cy="190" r="1.5" fill="#6B8BA4"/>
+          <circle cx="326" cy="162" r="1.5" fill="#6B8BA4"/>
+          <circle cx="315" cy="136" r="1.5" fill="#6B8BA4"/>
+          <circle cx="298" cy="114" r="1.5" fill="#6B8BA4"/>
+          <circle cx="276" cy="96" r="1.5" fill="#6B8BA4"/>
+          <circle cx="250" cy="83" r="1.5" fill="#6B8BA4"/>
+          <circle cx="222" cy="76" r="1.5" fill="#6B8BA4"/>
+          <circle cx="190" cy="74" r="1.5" fill="#6B8BA4"/>
+          <circle cx="158" cy="76" r="1.5" fill="#6B8BA4"/>
+          <circle cx="130" cy="83" r="1.5" fill="#6B8BA4"/>
+          <circle cx="104" cy="96" r="1.5" fill="#6B8BA4"/>
+          <circle cx="82"  cy="114" r="1.5" fill="#6B8BA4"/>
+          <circle cx="65"  cy="136" r="1.5" fill="#6B8BA4"/>
+          <circle cx="54"  cy="162" r="1.5" fill="#6B8BA4"/>
+          <circle cx="50"  cy="190" r="1.5" fill="#6B8BA4"/>
+          <circle cx="54"  cy="218" r="1.5" fill="#6B8BA4"/>
+          <circle cx="65"  cy="244" r="1.5" fill="#6B8BA4"/>
+          <circle cx="82"  cy="266" r="1.5" fill="#6B8BA4"/>
+          <circle cx="104" cy="284" r="1.5" fill="#6B8BA4"/>
+          <circle cx="130" cy="297" r="1.5" fill="#6B8BA4"/>
+          <circle cx="158" cy="304" r="1.5" fill="#6B8BA4"/>
+          <circle cx="190" cy="306" r="1.5" fill="#6B8BA4"/>
+          <circle cx="222" cy="304" r="1.5" fill="#6B8BA4"/>
+          <circle cx="250" cy="297" r="1.5" fill="#6B8BA4"/>
+          <circle cx="276" cy="284" r="1.5" fill="#6B8BA4"/>
+          <circle cx="298" cy="266" r="1.5" fill="#6B8BA4"/>
+          <circle cx="315" cy="244" r="1.5" fill="#6B8BA4"/>
+          <circle cx="326" cy="218" r="1.5" fill="#6B8BA4"/>
+          <!-- more dots, denser -->
+          <circle cx="328" cy="176" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="321" cy="149" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="307" cy="125" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="287" cy="105" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="263" cy="89" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="236" cy="79" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="207" cy="74" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="173" cy="74" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="144" cy="79" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="117" cy="89" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="93"  cy="105" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="73"  cy="125" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="59"  cy="149" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="52"  cy="176" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="52"  cy="204" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="59"  cy="231" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="73"  cy="255" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="93"  cy="275" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="117" cy="291" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="144" cy="301" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="173" cy="306" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="207" cy="306" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="236" cy="301" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="263" cy="291" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="287" cy="275" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="307" cy="255" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="321" cy="231" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <circle cx="328" cy="204" r="1" fill="#6B8BA4" opacity="0.6"/>
+          <!-- scattered small dots -->
+          <circle cx="270" cy="130" r="1" fill="#C9A84C" opacity="0.4"/>
+          <circle cx="300" cy="210" r="1.2" fill="#C9A84C" opacity="0.3"/>
+          <circle cx="150" cy="310" r="1" fill="#6B8BA4" opacity="0.3"/>
+          <circle cx="100" cy="160" r="0.8" fill="#6B8BA4" opacity="0.4"/>
+        </g>
+
+        <!-- Gold 8-point star center -->
+        <g transform="translate(190,190)">
+          <line x1="0" y1="-52" x2="0" y2="52" stroke="#C9A84C" stroke-width="1.2" opacity="0.9"/>
+          <line x1="-52" y1="0" x2="52" y2="0" stroke="#C9A84C" stroke-width="1.2" opacity="0.9"/>
+          <line x1="-37" y1="-37" x2="37" y2="37" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+          <line x1="37" y1="-37" x2="-37" y2="37" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+          <circle cx="0" cy="0" r="3" fill="#C9A84C"/>
+        </g>
+
+        <!-- Crescent moon top-right -->
+        <g transform="translate(295,75)">
+          <path d="M18 0 C18 20, 4 35, -4 38 C10 34, 22 22, 22 8 C22 -6, 10 -16, -4 -16 C4 -14, 18 -20, 18 0Z" fill="#C9A84C" opacity="0.75"/>
+        </g>
+
+        <!-- Scattered stars -->
+        <circle cx="260" cy="110" r="1.5" fill="#C9A84C" opacity="0.8"/>
+        <circle cx="130" cy="85" r="1" fill="#C9A84C" opacity="0.6"/>
+        <circle cx="310" cy="240" r="1.2" fill="#C9A84C" opacity="0.5"/>
+        <circle cx="80" cy="280" r="1" fill="#C9A84C" opacity="0.4"/>
+        <circle cx="200" cy="50" r="1" fill="#6B8BA4" opacity="0.5"/>
+        <circle cx="340" cy="170" r="0.8" fill="#C9A84C" opacity="0.4"/>
+        <circle cx="60" cy="120" r="0.8" fill="#C9A84C" opacity="0.35"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Beach photo -->
+  <div class="hero-beach">
+    <img class="beach-img" src="https://res.cloudinary.com/dnisvqb31/image/upload/v1780766809/WhatsApp_Image_2026-06-06_at_19.16.33_osoymn.jpg" alt="Strand Málaga"/>
+    <div class="beach-overlay"></div>
+
+  </div>
+</section>
+
+<!-- PILLARS -->
+<div class="pillars">
+  <div class="pillar">
+    <div class="pillar-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B8BA4" stroke-width="1.2">
+        <path d="M12 2 L12 8 M12 8 C12 8 8 10 8 14 C8 17 10 19 12 19 C14 19 16 17 16 14 C16 10 12 8 12 8Z"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+      </svg>
+    </div>
+    <span class="pillar-title">Verstehen</span>
+    <span class="pillar-sub">Statt bewerten.</span>
+  </div>
+  <div class="pillar">
+    <div class="pillar-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B8BA4" stroke-width="1.2">
+        <path d="M4 12 Q7 8 12 12 Q17 16 20 12"/>
+        <path d="M4 16 Q7 12 12 16 Q17 20 20 16" opacity="0.5"/>
+        <path d="M4 8 Q7 4 12 8 Q17 12 20 8" opacity="0.5"/>
+      </svg>
+    </div>
+    <span class="pillar-title">Annehmen</span>
+    <span class="pillar-sub">Statt anpassen.</span>
+  </div>
+  <div class="pillar">
+    <div class="pillar-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="5"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="5" y2="12"/>
+        <line x1="19" y1="12" x2="22" y2="12"/>
+        <line x1="4.9" y1="4.9" x2="7" y2="7"/>
+        <line x1="17" y1="17" x2="19.1" y2="19.1"/>
+        <line x1="19.1" y1="4.9" x2="17" y2="7"/>
+        <line x1="7" y1="17" x2="4.9" y2="19.1"/>
+      </svg>
+    </div>
+    <span class="pillar-title">Aufblühen</span>
+    <span class="pillar-sub">In deinem Tempo.</span>
+  </div>
+</div>
+
+<!-- FREEBIE -->
+<section class="freebie" id="freebie">
+  <div class="guide-card">
+    <div class="guide-card-badge">Kostenlos</div>
+    <div class="guide-card-star">✦</div>
+    <div class="guide-card-tag">Guide by Sensia Nova</div>
+    <div class="guide-card-title">Inattentive ADHD & die sensitive Seele</div>
+    <div class="guide-card-rule"></div>
+    <div class="guide-card-by">Anna · Sensia Nova</div>
+  </div>
+  <div class="freebie-text">
+    <div class="eyebrow">Dein kostenloser Guide</div>
+    <h2>Endlich ein Guide, der dich wirklich versteht.</h2>
+    <p>Inattentive ADHS zeigt sich bei sensitiven Menschen anders. Dieser Guide hilft dir zu verstehen, was wirklich in dir vorgeht — und wie du mit deinem Geist arbeitest statt gegen ihn.</p>
+    <ul class="feat-list">
+      <li><span class="feat-star">✦</span>Warum inattentive ADHS so oft unerkannt bleibt</li>
+      <li><span class="feat-star">✦</span>Der Zusammenhang zwischen Sensitivität und Aufmerksamkeit</li>
+      <li><span class="feat-star">✦</span>Strategien, die zu deiner Verdrahtung passen</li>
+      <li><span class="feat-star">✦</span>Wie du aufhörst, dich als „zu viel" zu sehen</li>
+    </ul>
+    <div id="form-wrap">
+      <div class="optin">
+        <input type="text" id="name-in" placeholder="Dein Vorname"/>
+        <input type="email" id="email-in" placeholder="Deine E-Mail-Adresse"/>
+        <button onclick="sub()">Guide jetzt kostenlos holen →</button>
+      </div>
+      <p class="optin-note">Du erhältst auch den Sensia Nova Newsletter. Jederzeit abmeldbar.</p>
+    </div>
+    <div class="success" id="success">✦ &nbsp;Check dein Postfach — dein Guide ist unterwegs.</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-img-wrap">
+    <div class="about-img"><img src="https://res.cloudinary.com/dnisvqb31/image/upload/v1780766809/WhatsApp_Image_2026-06-06_at_19.24.30_mxhvn8.jpg" alt="Anna" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>
+  </div>
+  <div class="about-text">
+    <div class="eyebrow">Hi, ich bin Anna</div>
+    <h2>Ich war genau dort, wo du gerade bist.</h2>
+    <p>Den größten Teil meines Lebens dachte ich, alles so intensiv zu fühlen, sei ein Problem, das ich lösen müsste. Es war keins — es war ein Signal.</p>
+    <p>Sensia Nova ist aus diesem Wandel entstanden. Ich bin hier, damit sensitive Menschen aufhören zu schrumpfen und anfangen zu wachsen.</p>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="connect" id="connect">
+  <div class="connect-star-bg">✦</div>
+  <div class="eyebrow">Community</div>
+  <h2>Lass uns verbinden.</h2>
+  <p>Finde mich dort, wo sensitive Seelen sich treffen.</p>
+  <div class="social-row">
+    <a href="#" class="social-btn">Instagram</a>
+    <a href="#" class="social-btn">Newsletter</a>
+    <a href="#" class="social-btn">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <span class="footer-star">✦</span>
+    <span class="footer-logo">Sensia Nova</span>
+  </div>
+  <div class="footer-copy">© 2026 Sensia Nova · Alle Rechte vorbehalten</div>
+</footer>
+
+<script>
+function sub(){
+  var n=document.getElementById('name-in').value.trim();
+  var e=document.getElementById('email-in').value.trim();
+  if(!n||!e){alert('Bitte Name und E-Mail eingeben.');return;}
+  if(!/\S+@\S+\.\S+/.test(e)){alert('Bitte eine gültige E-Mail eingeben.');return;}
+  document.getElementById('form-wrap').style.display='none';
+  document.getElementById('success').style.display='block';
+}
+</script>
+</body>
+</html>
