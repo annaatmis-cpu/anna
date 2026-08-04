@@ -1,926 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Sensia Nova – Für neurodiverse und sensitive Menschen. Kostenlose Workbook-Leseprobe sichern."/>
-<title>Sensia Nova – Für sensitive & neurodiverse Menschen</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
-<style>
-/* ============================================================
-   RESET & VARIABLES
-   ============================================================ */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --cream:#F5F0EA;
-  --cream2:#EDE7DE;
-  --blue-slate:#6B8BA4;
-  --blue-dark:#4A6578;
-  --gold:#C9A84C;
-  --gold-light:#E8D5A0;
-  --text:#3D4F5C;
-  --muted:#8A9BA8;
-  --nav-h:72px;
-}
-html{scroll-behavior:smooth}
-body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
-
-/* ============================================================
-   SCROLL ANIMATIONS
-   ============================================================ */
-.fade-up{
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity 0.65s ease, transform 0.65s ease;
-}
-.fade-up.visible{opacity:1;transform:translateY(0)}
-
-/* staggered siblings */
-.fade-up:nth-child(2){transition-delay:0.08s}
-.fade-up:nth-child(3){transition-delay:0.16s}
-.fade-up:nth-child(4){transition-delay:0.24s}
-.fade-up:nth-child(5){transition-delay:0.32s}
-
-@media(prefers-reduced-motion:reduce){
-  .fade-up{opacity:1;transform:none;transition:none}
-}
-
-/* ============================================================
-   NAVIGATION — sticky, blurs on scroll
-   ============================================================ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  height:var(--nav-h);
-  padding:0 2.8rem;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(245,240,234,0);
-  backdrop-filter:blur(0px);
-  transition:background 0.35s, backdrop-filter 0.35s, box-shadow 0.35s;
-}
-nav.scrolled{
-  background:rgba(245,240,234,0.93);
-  backdrop-filter:blur(14px);
-  box-shadow:0 1px 0 rgba(107,139,164,0.12);
-}
-
-.nav-brand{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-decoration:none}
-.nav-star{color:var(--gold);font-size:0.7rem;margin-bottom:0.1rem;display:block;text-align:center;width:100%}
-.nav-logo{font-family:'Jost',sans-serif;font-weight:200;font-size:0.85rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text)}
-
-.nav-links{display:flex;gap:2.2rem;align-items:center}
-.nav-links a{
-  font-size:0.72rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--text);text-decoration:none;opacity:0.65;
-  transition:opacity 0.2s;
-  position:relative;padding-bottom:3px;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:var(--gold);transform:scaleX(0);transform-origin:left;
-  transition:transform 0.25s;
-}
-.nav-links a:hover{opacity:1}
-.nav-links a.active{opacity:1}
-.nav-links a.active::after{transform:scaleX(1)}
-
-.nav-cta-link{
-  background:var(--blue-slate);color:#fff;
-  font-size:0.72rem;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;
-  padding:0.72rem 1.6rem;border-radius:999px;text-decoration:none;
-  transition:background 0.2s, transform 0.2s;white-space:nowrap;
-}
-.nav-cta-link:hover{background:var(--blue-dark);transform:translateY(-1px)}
-
-/* Hamburger */
-.hamburger{
-  display:none;flex-direction:column;gap:5px;
-  cursor:pointer;padding:6px;background:none;border:none;
-}
-.hamburger span{
-  display:block;width:22px;height:1px;
-  background:var(--text);
-  transition:transform 0.26s, opacity 0.26s;
-}
-.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-
-/* Mobile drawer — uses visibility so CSS transitions work */
-.nav-drawer{
-  display:flex;flex-direction:column;gap:1.6rem;
-  position:fixed;top:var(--nav-h);left:0;right:0;z-index:199;
-  background:rgba(245,240,234,0.97);backdrop-filter:blur(16px);
-  padding:2rem 2rem 2.5rem;
-  border-bottom:1px solid rgba(107,139,164,0.12);
-  visibility:hidden;opacity:0;transform:translateY(-6px);
-  transition:opacity 0.22s, transform 0.22s, visibility 0.22s;
-  pointer-events:none;
-}
-.nav-drawer.open{visibility:visible;opacity:1;transform:translateY(0);pointer-events:all}
-.nav-drawer a{
-  font-size:0.9rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--text);text-decoration:none;opacity:0.75;
-}
-.nav-drawer .nav-cta-link{text-align:center;margin-top:0.5rem;padding:1rem}
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero{position:relative;display:flex;flex-direction:column;overflow:hidden}
-
-.hero-top{
-  padding:calc(var(--nav-h) + 3.5rem) 4rem 3rem;
-  display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;gap:2rem;
-  position:relative;z-index:2;
-}
-
-/* Emotional headline area */
-.hero-eyebrow{
-  font-size:0.68rem;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;
-  color:var(--blue-slate);margin-bottom:1.4rem;
-  display:flex;align-items:center;gap:0.7rem;
-}
-.hero-eyebrow::before{content:'✦';color:var(--gold);font-size:0.65em}
-
-.hero-title{
-  font-family:'Jost',sans-serif;font-weight:200;
-  font-size:clamp(3.2rem,6.5vw,5.5rem);
-  line-height:0.95;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--text);margin-bottom:1rem;
-}
-.hero-title-star{color:var(--gold);font-size:0.5em;vertical-align:super;margin-left:2px}
-
-.hero-subtitle{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:clamp(1.25rem,2.2vw,1.75rem);line-height:1.4;
-  color:var(--blue-dark);margin-bottom:1.8rem;opacity:0.9;
-}
-
-.hero-rule{width:36px;height:1px;background:var(--gold);margin-bottom:1.8rem}
-
-.hero-sub{
-  font-size:0.9rem;font-weight:300;color:var(--muted);
-  line-height:1.85;margin-bottom:2.8rem;max-width:380px;
-}
-
-/* Dual CTAs */
-.hero-ctas{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
-
-.btn-primary{
-  display:inline-flex;align-items:center;gap:0.5rem;
-  background:var(--blue-slate);color:#fff;
-  font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:300;
-  letter-spacing:0.14em;text-transform:uppercase;
-  padding:1.15rem 2.5rem;border-radius:999px;text-decoration:none;
-  transition:background 0.25s, transform 0.2s, box-shadow 0.25s;
-  box-shadow:0 4px 24px rgba(107,139,164,0.28);
-}
-.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 8px 32px rgba(107,139,164,0.38)}
-.btn-primary svg{width:14px;height:14px;flex-shrink:0}
-
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:0.4rem;
-  color:var(--text);opacity:0.65;
-  font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:300;
-  letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;
-  transition:opacity 0.2s, color 0.2s;
-  padding-bottom:2px;
-  border-bottom:1px solid rgba(107,139,164,0.3);
-}
-.btn-ghost:hover{opacity:1;color:var(--blue-dark);border-color:var(--blue-dark)}
-
-/* Celestial column */
-.hero-right{
-  display:flex;align-items:center;justify-content:center;
-  position:relative;height:340px;
-}
-.celestial{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  animation:float 9s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translate(-50%,-50%)}
-  50%{transform:translate(-50%,calc(-50% - 10px))}
-}
-
-/* Beach — significantly taller on desktop */
-.hero-beach{
-  position:relative;z-index:1;
-  height:52vh;min-height:380px;
-  overflow:hidden;
-}
-.hero-beach::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:140px;
-  background:linear-gradient(to bottom,var(--cream),transparent);
-  z-index:2;
-}
-.beach-img{
-  width:100%;height:100%;
-  object-fit:cover;object-position:center 22%;
-  filter:brightness(1.05) saturate(0.75);
-}
-.beach-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,transparent 38%,rgba(180,195,210,0.28) 100%);
-  z-index:1;
-}
-.malaga-tag{
-  position:absolute;bottom:2.5rem;right:2.8rem;z-index:3;
-  display:flex;flex-direction:column;align-items:center;gap:0.35rem;
-}
-.malaga-label{font-size:0.65rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--text);opacity:0.7}
-.malaga-heart{color:var(--blue-slate);font-size:0.9rem;opacity:0.55}
-
-/* ============================================================
-   PILLARS
-   ============================================================ */
-.pillars{
-  background:rgba(180,200,215,0.18);backdrop-filter:blur(4px);
-  padding:2.2rem 3.5rem;
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border-top:1px solid rgba(107,139,164,0.12);
-}
-.pillar{display:flex;flex-direction:column;align-items:center;gap:0.9rem;padding:0 1rem;position:relative}
-.pillar+.pillar::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:50%;width:1px;background:rgba(107,139,164,0.18)}
-.pillar-icon{width:46px;height:46px;border-radius:50%;border:1px solid rgba(107,139,164,0.3);display:flex;align-items:center;justify-content:center}
-.pillar-title{font-size:0.68rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--text)}
-.pillar-sub{font-size:0.75rem;font-weight:300;color:var(--muted);letter-spacing:0.05em}
-
-/* ============================================================
-   FREEBIE / LESEPROBE
-   ============================================================ */
-.freebie{
-  padding:7rem 4rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
-  align-items:center;max-width:1140px;margin:0 auto;
-}
-
-.guide-card{
-  background:linear-gradient(145deg,#EBE3D8,#D8E4EE);
-  border-radius:16px 24px 24px 16px;
-  aspect-ratio:3/4;max-width:300px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:3rem 2rem;
-  position:relative;overflow:hidden;
-  box-shadow:12px 20px 52px rgba(74,101,120,0.14);
-  transition:transform 0.35s, box-shadow 0.35s;
-}
-.guide-card:hover{transform:translateY(-5px);box-shadow:12px 30px 64px rgba(74,101,120,0.2)}
-.guide-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:12px;background:linear-gradient(to right,rgba(0,0,0,0.07),transparent)}
-.guide-card-star{color:var(--gold);font-size:1.4rem;margin-bottom:1rem}
-.guide-card-tag{font-size:0.62rem;font-weight:300;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem}
-.guide-card-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1.55rem;line-height:1.3;color:var(--text);text-align:center;margin-bottom:1rem}
-.guide-card-rule{width:28px;height:1px;background:var(--gold);margin:0 auto 1rem}
-.guide-card-by{font-size:0.65rem;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
-.guide-card-badge{
-  position:absolute;top:1.2rem;right:1.2rem;
-  background:var(--gold);color:#fff;
-  font-size:0.62rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;
-  padding:0.3rem 0.8rem;border-radius:999px;
-}
-
-.freebie-text .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
-.freebie-text .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
-.freebie-text h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.9rem,3vw,2.75rem);line-height:1.2;color:var(--text);margin-bottom:1.2rem}
-.freebie-text p{font-size:0.88rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:2rem}
-.feat-list{list-style:none;margin-bottom:2.4rem}
-.feat-list li{font-size:0.85rem;font-weight:300;color:var(--text);padding:0.72rem 0;border-bottom:1px solid rgba(107,139,164,0.1);display:flex;align-items:center;gap:0.7rem;opacity:0.85}
-.feat-list li:first-child{border-top:1px solid rgba(107,139,164,0.1)}
-.feat-star{color:var(--gold);font-size:0.55rem;flex-shrink:0}
-
-/* Opt-in form */
-.optin{display:flex;flex-direction:column;gap:0.7rem}
-.optin input{
-  font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;
-  padding:0.92rem 1.4rem;
-  border:1px solid rgba(107,139,164,0.28);
-  background:rgba(255,255,255,0.65);
-  color:var(--text);border-radius:999px;outline:none;
-  transition:border-color 0.2s, background 0.2s;letter-spacing:0.02em;
-}
-.optin input:focus{border-color:var(--blue-slate);background:rgba(255,255,255,0.9)}
-.optin input::placeholder{color:var(--muted)}
-
-.btn-optin{
-  background:var(--blue-slate);color:#fff;
-  font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:300;
-  letter-spacing:0.14em;text-transform:uppercase;
-  padding:1.1rem 1.6rem;border-radius:999px;border:none;cursor:pointer;
-  transition:background 0.25s, transform 0.2s, box-shadow 0.25s;
-  box-shadow:0 4px 20px rgba(107,139,164,0.22);
-}
-.btn-optin:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 8px 28px rgba(107,139,164,0.32)}
-.btn-optin:disabled{opacity:0.55;cursor:not-allowed;transform:none}
-
-.optin-note{font-size:0.7rem;color:var(--muted);font-weight:300;margin-top:0.4rem;text-align:center;letter-spacing:0.04em}
-
-.success-msg{
-  display:none;padding:1.5rem;
-  background:rgba(201,168,76,0.07);
-  border:1px solid rgba(201,168,76,0.25);
-  border-radius:14px;text-align:center;
-  font-size:0.88rem;color:var(--gold);font-weight:300;
-  letter-spacing:0.04em;line-height:1.7;
-}
-.success-msg a{
-  display:inline-block;margin-top:1rem;
-  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--blue-slate);text-decoration:none;
-  border-bottom:1px solid rgba(107,139,164,0.35);padding-bottom:2px;
-}
-.error-msg{
-  display:none;padding:0.8rem 1.1rem;
-  background:rgba(160,70,70,0.05);
-  border:1px solid rgba(160,70,70,0.18);
-  border-radius:8px;
-  font-size:0.78rem;color:#7A4040;font-weight:300;letter-spacing:0.02em;
-}
-
-/* ============================================================
-   BUY WORKBOOK
-   ============================================================ */
-.buy-section{
-  background:linear-gradient(158deg,#E8E0D3,#D5E2EC);
-  padding:6.5rem 4rem;
-  display:flex;flex-direction:column;align-items:center;
-  text-align:center;position:relative;overflow:hidden;
-}
-.buy-section::before{
-  content:'✦';position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-size:38rem;color:rgba(107,139,164,0.04);
-  pointer-events:none;line-height:1;
-}
-.buy-eyebrow{
-  font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--blue-slate);margin-bottom:1.4rem;
-  display:flex;align-items:center;justify-content:center;gap:0.6rem;
-  position:relative;z-index:1;
-}
-.buy-eyebrow::before,.buy-eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
-.buy-section h2{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:clamp(2rem,3.8vw,3rem);line-height:1.25;
-  color:var(--text);margin-bottom:1rem;
-  max-width:620px;position:relative;z-index:1;
-}
-.buy-section p{
-  font-size:0.9rem;font-weight:300;color:var(--muted);
-  line-height:1.85;margin-bottom:0.5rem;
-  max-width:500px;position:relative;z-index:1;
-}
-.buy-price{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:2.6rem;color:var(--text);
-  margin:1.6rem 0 2.2rem;position:relative;z-index:1;opacity:0.85;
-}
-.buy-price span{
-  font-size:0.95rem;font-style:normal;
-  font-family:'Jost',sans-serif;font-weight:200;
-  letter-spacing:0.1em;color:var(--muted);
-  vertical-align:middle;margin-left:6px;
-}
-.btn-buy{
-  display:inline-flex;align-items:center;gap:0.6rem;
-  border:1.5px solid var(--blue-slate);color:var(--blue-slate);
-  font-family:'Jost',sans-serif;font-size:0.8rem;font-weight:300;
-  letter-spacing:0.16em;text-transform:uppercase;
-  padding:1.15rem 3rem;border-radius:999px;text-decoration:none;
-  transition:all 0.25s;position:relative;z-index:1;
-}
-.btn-buy:hover{background:var(--blue-slate);color:#fff;transform:translateY(-2px);box-shadow:0 8px 32px rgba(107,139,164,0.28)}
-.btn-buy svg{width:14px;height:14px;flex-shrink:0}
-.buy-note{font-size:0.7rem;color:var(--muted);margin-top:1.2rem;letter-spacing:0.04em;position:relative;z-index:1}
-
-/* ============================================================
-   ABOUT
-   ============================================================ */
-.about{
-  background:linear-gradient(160deg,#EAE3D8,#D8E3EC);
-  padding:7rem 4rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
-  align-items:center;max-width:100%;
-}
-.about-img-wrap{display:flex;justify-content:center}
-.about-img{
-  width:280px;height:360px;
-  border-radius:140px 140px 100px 100px;
-  overflow:hidden;position:relative;
-  box-shadow:12px 20px 52px rgba(74,101,120,0.14);
-}
-.about-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.about-img::after{content:'✦';position:absolute;bottom:1.5rem;right:1.5rem;color:rgba(201,168,76,0.7);font-size:1rem}
-.about-text .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
-.about-text .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
-.about-text h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.8rem,2.8vw,2.6rem);line-height:1.2;color:var(--text);margin-bottom:1.2rem}
-.about-text p{font-size:0.88rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:0.9rem}
-
-/* ============================================================
-   CONNECT
-   ============================================================ */
-.connect{padding:6rem 2rem;text-align:center;background:var(--cream);position:relative;overflow:hidden}
-.connect-star-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.04;font-size:40rem;color:var(--gold);pointer-events:none;line-height:1}
-.connect .eyebrow{font-size:0.68rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue-slate);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;gap:0.6rem;position:relative;z-index:1}
-.connect .eyebrow::before,.connect .eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--gold)}
-.connect h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(2rem,4vw,3.2rem);color:var(--text);margin-bottom:0.8rem;position:relative;z-index:1}
-.connect p{font-size:0.85rem;font-weight:300;color:var(--muted);margin-bottom:2.5rem;letter-spacing:0.04em;position:relative;z-index:1}
-.social-row{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
-.social-btn{
-  color:var(--blue-slate);font-size:0.72rem;font-weight:300;
-  letter-spacing:0.14em;text-transform:uppercase;
-  padding:0.82rem 2rem;border-radius:999px;text-decoration:none;
-  border:1px solid rgba(107,139,164,0.35);
-  transition:all 0.25s;
-}
-.social-btn:hover{background:var(--blue-slate);color:#fff;border-color:var(--blue-slate);transform:translateY(-1px)}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer{
-  padding:1.8rem 4rem;border-top:1px solid rgba(107,139,164,0.12);
-  display:flex;align-items:center;justify-content:space-between;
-  background:var(--cream);
-}
-.footer-brand{display:flex;flex-direction:column;align-items:flex-start}
-.footer-star{color:var(--gold);font-size:0.6rem;margin-bottom:0.1rem}
-.footer-logo{font-size:0.78rem;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;color:var(--text)}
-.footer-copy{font-size:0.7rem;color:var(--muted);font-weight:300;letter-spacing:0.06em}
-
-/* ============================================================
-   MOBILE — preserve original look, improve UX
-   ============================================================ */
-@media(max-width:768px){
-  :root{--nav-h:60px}
-
-  nav{padding:0 1.2rem}
-  .nav-links,.nav-cta-link{display:none}
-  .hamburger{display:flex}
-
-  .hero-top{
-    grid-template-columns:1fr;
-    padding:calc(var(--nav-h) + 2.5rem) 1.6rem 2.2rem;
-    gap:0;
-  }
-  .hero-right{height:270px;margin-bottom:0.5rem}
-  .hero-subtitle{font-size:1.2rem}
-  .hero-sub{max-width:100%;margin-bottom:2rem}
-  .hero-ctas{align-items:stretch;width:100%}
-  .btn-primary,.btn-ghost{justify-content:center;text-align:center}
-  .btn-primary{padding:1.15rem 1.5rem;width:100%}
-  .btn-ghost{width:100%;border:1px solid rgba(107,139,164,0.28);border-radius:999px;padding:0.9rem 1.5rem;justify-content:center;opacity:0.8}
-
-  /* Beach: restore original mobile height */
-  .hero-beach{height:280px;min-height:0}
-
-  .pillars{padding:1.5rem 1.2rem}
-  .pillar-sub{display:none}
-
-  .freebie{
-    grid-template-columns:1fr;
-    padding:5rem 1.6rem;gap:2.8rem;max-width:100%;
-  }
-  .guide-card{max-width:100%;aspect-ratio:unset;padding:2.5rem 2rem}
-
-  .buy-section{padding:5rem 1.6rem}
-  .btn-buy{width:100%;justify-content:center}
-
-  .about{
-    grid-template-columns:1fr;
-    padding:5rem 1.6rem;gap:3rem;max-width:100%;
-  }
-  .about-img{width:220px;height:280px;margin:0 auto}
-
-  .connect{padding:5rem 1.6rem}
-  footer{padding:1.5rem 1.6rem;flex-direction:column;gap:0.8rem;text-align:center}
-  .footer-brand{align-items:center}
-}
-
-@media(max-width:420px){
-  .hero-title{font-size:2.8rem}
-  .pillars{grid-template-columns:repeat(3,1fr);gap:0}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stilles ADHS – ein Guide und Workbook für Frauen mit später ADHS-Diagnose. Sichere dir die kostenlose Leseprobe oder kaufe das vollständige Workbook direkt.">
+  <title>Stilles ADHS | Sensia Nova</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header" id="top">
+    <div class="nav-wrap">
+      <a class="brand" href="#top" aria-label="Sensia Nova Startseite">SENSIA NOVA</a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span><span class="sr-only">Menü</span></button>
+      <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
+        <a href="#leseprobe">Leseprobe</a>
+        <a href="#workbook">Workbook</a>
+        <a href="#inhalt">Einblicke</a>
+        <a class="nav-buy" href="#kaufen">Workbook kaufen</a>
+      </nav>
+    </div>
+  </header>
 
-<!-- NAV -->
-<nav id="main-nav">
-  <a href="#" class="nav-brand">
-    <span class="nav-star">✦</span>
-    <span class="nav-logo">Sensia Nova</span>
-  </a>
-  <div class="nav-links">
-    <a href="#leseprobe" data-section="leseprobe">Leseprobe</a>
-    <a href="#workbook" data-section="workbook">Workbook</a>
-    <a href="#about" data-section="about">Über mich</a>
-    <a href="#connect" data-section="connect">Kontakt</a>
-  </div>
-  <a href="#leseprobe" class="nav-cta-link">Leseprobe sichern</a>
-  <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE DRAWER -->
-<nav class="nav-drawer" id="nav-drawer" aria-hidden="true">
-  <a href="#leseprobe" class="drawer-link">Leseprobe</a>
-  <a href="#workbook" class="drawer-link">Workbook</a>
-  <a href="#about" class="drawer-link">Über mich</a>
-  <a href="#connect" class="drawer-link">Kontakt</a>
-  <a href="#leseprobe" class="nav-cta-link">Kostenlose Leseprobe sichern</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-top">
-
-    <div class="hero-left">
-      <div class="hero-eyebrow">Für neurodiverse &amp; sensitive Menschen</div>
-      <div class="hero-title">SENSIA<br/>NOVA<span class="hero-title-star">✦</span></div>
-      <p class="hero-subtitle">Dein Geist ist kein Fehler.<br/>Er ist anders verdrahtet.</p>
-      <div class="hero-rule"></div>
-      <p class="hero-sub">Entdecke die kostenlose Leseprobe des Sensia Nova Workbooks — und lerne, mit deiner Verdrahtung zu leben statt gegen sie zu kämpfen.</p>
-      <div class="hero-ctas">
-        <a href="#leseprobe" class="btn-primary">
-          Kostenlose Leseprobe sichern
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#workbook" class="btn-ghost">Workbook kaufen →</a>
+  <main id="main">
+    <section class="hero section-shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Für Frauen mit später ADHS-Diagnose</p>
+        <h1>Endlich verstehen,<br>warum sich dein Leben<br><em>so lange so schwer</em> angefühlt hat.</h1>
+        <p class="lead">Ein einfühlsamer Guide über stilles ADHS, Selbstverständnis und den Weg zurück zu dir – ohne dich reparieren zu wollen.</p>
+        <div class="hero-actions">
+          <a class="button button-primary button-large" href="#leseprobe">Kostenlose Leseprobe sichern</a>
+          <a class="button button-secondary" href="#kaufen">Workbook direkt kaufen</a>
+        </div>
+        <p class="microcopy">Die Leseprobe ist kostenlos. Das vollständige Workbook ist kostenpflichtig.</p>
       </div>
-    </div>
 
-    <div class="hero-right">
-      <!-- Celestial SVG — unchanged from original -->
-      <svg class="celestial" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g opacity="0.55">
-          <circle cx="330" cy="190" r="1.5" fill="#6B8BA4"/>
-          <circle cx="326" cy="162" r="1.5" fill="#6B8BA4"/>
-          <circle cx="315" cy="136" r="1.5" fill="#6B8BA4"/>
-          <circle cx="298" cy="114" r="1.5" fill="#6B8BA4"/>
-          <circle cx="276" cy="96"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="250" cy="83"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="222" cy="76"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="190" cy="74"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="158" cy="76"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="130" cy="83"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="104" cy="96"  r="1.5" fill="#6B8BA4"/>
-          <circle cx="82"  cy="114" r="1.5" fill="#6B8BA4"/>
-          <circle cx="65"  cy="136" r="1.5" fill="#6B8BA4"/>
-          <circle cx="54"  cy="162" r="1.5" fill="#6B8BA4"/>
-          <circle cx="50"  cy="190" r="1.5" fill="#6B8BA4"/>
-          <circle cx="54"  cy="218" r="1.5" fill="#6B8BA4"/>
-          <circle cx="65"  cy="244" r="1.5" fill="#6B8BA4"/>
-          <circle cx="82"  cy="266" r="1.5" fill="#6B8BA4"/>
-          <circle cx="104" cy="284" r="1.5" fill="#6B8BA4"/>
-          <circle cx="130" cy="297" r="1.5" fill="#6B8BA4"/>
-          <circle cx="158" cy="304" r="1.5" fill="#6B8BA4"/>
-          <circle cx="190" cy="306" r="1.5" fill="#6B8BA4"/>
-          <circle cx="222" cy="304" r="1.5" fill="#6B8BA4"/>
-          <circle cx="250" cy="297" r="1.5" fill="#6B8BA4"/>
-          <circle cx="276" cy="284" r="1.5" fill="#6B8BA4"/>
-          <circle cx="298" cy="266" r="1.5" fill="#6B8BA4"/>
-          <circle cx="315" cy="244" r="1.5" fill="#6B8BA4"/>
-          <circle cx="326" cy="218" r="1.5" fill="#6B8BA4"/>
-          <circle cx="328" cy="176" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="321" cy="149" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="307" cy="125" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="287" cy="105" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="263" cy="89"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="236" cy="79"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="207" cy="74"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="173" cy="74"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="144" cy="79"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="117" cy="89"  r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="93"  cy="105" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="73"  cy="125" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="59"  cy="149" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="52"  cy="176" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="52"  cy="204" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="59"  cy="231" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="73"  cy="255" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="93"  cy="275" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="117" cy="291" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="144" cy="301" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="173" cy="306" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="207" cy="306" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="236" cy="301" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="263" cy="291" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="287" cy="275" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="307" cy="255" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="321" cy="231" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="328" cy="204" r="1" fill="#6B8BA4" opacity="0.6"/>
-          <circle cx="270" cy="130" r="1"   fill="#C9A84C" opacity="0.4"/>
-          <circle cx="300" cy="210" r="1.2" fill="#C9A84C" opacity="0.3"/>
-          <circle cx="150" cy="310" r="1"   fill="#6B8BA4" opacity="0.3"/>
-          <circle cx="100" cy="160" r="0.8" fill="#6B8BA4" opacity="0.4"/>
-        </g>
-        <g transform="translate(190,190)">
-          <line x1="0" y1="-52" x2="0" y2="52" stroke="#C9A84C" stroke-width="1.2" opacity="0.9"/>
-          <line x1="-52" y1="0" x2="52" y2="0" stroke="#C9A84C" stroke-width="1.2" opacity="0.9"/>
-          <line x1="-37" y1="-37" x2="37" y2="37" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
-          <line x1="37" y1="-37" x2="-37" y2="37" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
-          <circle cx="0" cy="0" r="3" fill="#C9A84C"/>
-        </g>
-        <g transform="translate(295,75)">
-          <path d="M18 0 C18 20,4 35,-4 38 C10 34,22 22,22 8 C22 -6,10 -16,-4 -16 C4 -14,18 -20,18 0Z" fill="#C9A84C" opacity="0.75"/>
-        </g>
-        <circle cx="260" cy="110" r="1.5" fill="#C9A84C" opacity="0.8"/>
-        <circle cx="130" cy="85"  r="1"   fill="#C9A84C" opacity="0.6"/>
-        <circle cx="310" cy="240" r="1.2" fill="#C9A84C" opacity="0.5"/>
-        <circle cx="80"  cy="280" r="1"   fill="#C9A84C" opacity="0.4"/>
-        <circle cx="200" cy="50"  r="1"   fill="#6B8BA4" opacity="0.5"/>
-        <circle cx="340" cy="170" r="0.8" fill="#C9A84C" opacity="0.4"/>
-        <circle cx="60"  cy="120" r="0.8" fill="#C9A84C" opacity="0.35"/>
-      </svg>
-    </div>
-
-  </div><!-- /hero-top -->
-
-  <!-- Beach photo — taller on desktop, original height preserved on mobile -->
-  <div class="hero-beach">
-    <img class="beach-img"
-         src="https://res.cloudinary.com/dnisvqb31/image/upload/v1780766809/WhatsApp_Image_2026-06-06_at_19.16.33_osoymn.jpg"
-         alt="Strand Málaga"
-         loading="lazy"/>
-    <div class="beach-overlay"></div>
-    <div class="malaga-tag">
-      <span class="malaga-label">Málaga</span>
-      <span class="malaga-heart">♡</span>
-    </div>
-  </div>
-</section>
-
-<!-- PILLARS -->
-<div class="pillars">
-  <div class="pillar fade-up">
-    <div class="pillar-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B8BA4" stroke-width="1.2">
-        <path d="M12 2 L12 8 M12 8 C12 8 8 10 8 14 C8 17 10 19 12 19 C14 19 16 17 16 14 C16 10 12 8 12 8Z"/>
-        <line x1="12" y1="19" x2="12" y2="22"/>
-      </svg>
-    </div>
-    <span class="pillar-title">Verstehen</span>
-    <span class="pillar-sub">Statt bewerten.</span>
-  </div>
-  <div class="pillar fade-up">
-    <div class="pillar-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B8BA4" stroke-width="1.2">
-        <path d="M4 12 Q7 8 12 12 Q17 16 20 12"/>
-        <path d="M4 16 Q7 12 12 16 Q17 20 20 16" opacity="0.5"/>
-        <path d="M4 8 Q7 4 12 8 Q17 12 20 8" opacity="0.5"/>
-      </svg>
-    </div>
-    <span class="pillar-title">Annehmen</span>
-    <span class="pillar-sub">Statt anpassen.</span>
-  </div>
-  <div class="pillar fade-up">
-    <div class="pillar-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2">
-        <circle cx="12" cy="12" r="4"/>
-        <line x1="12" y1="2" x2="12" y2="5"/>
-        <line x1="12" y1="19" x2="12" y2="22"/>
-        <line x1="2" y1="12" x2="5" y2="12"/>
-        <line x1="19" y1="12" x2="22" y2="12"/>
-        <line x1="4.9" y1="4.9" x2="7" y2="7"/>
-        <line x1="17" y1="17" x2="19.1" y2="19.1"/>
-        <line x1="19.1" y1="4.9" x2="17" y2="7"/>
-        <line x1="7" y1="17" x2="4.9" y2="19.1"/>
-      </svg>
-    </div>
-    <span class="pillar-title">Aufblühen</span>
-    <span class="pillar-sub">In deinem Tempo.</span>
-  </div>
-</div>
-
-<!-- LESEPROBE -->
-<section class="freebie" id="leseprobe">
-  <div class="guide-card fade-up">
-    <div class="guide-card-badge">Leseprobe</div>
-    <div class="guide-card-star">✦</div>
-    <div class="guide-card-tag">Workbook by Sensia Nova</div>
-    <div class="guide-card-title">Inattentive ADHS &amp; die sensitive Seele</div>
-    <div class="guide-card-rule"></div>
-    <div class="guide-card-by">Anna · Sensia Nova</div>
-  </div>
-  <div class="freebie-text">
-    <div class="eyebrow fade-up">Deine kostenlose Leseprobe</div>
-    <h2 class="fade-up">Endlich ein Workbook, das dich wirklich versteht.</h2>
-    <p class="fade-up">Inattentive ADHS zeigt sich bei sensitiven Menschen anders — leise, versteckt, oft übersehen. Die Leseprobe gibt dir einen ersten Einblick und zeigt dir, wie du mit deinem Geist arbeitest statt gegen ihn.</p>
-    <ul class="feat-list fade-up">
-      <li><span class="feat-star">✦</span>Warum inattentive ADHS so oft unerkannt bleibt</li>
-      <li><span class="feat-star">✦</span>Der Zusammenhang zwischen Sensitivität und Aufmerksamkeit</li>
-      <li><span class="feat-star">✦</span>Strategien, die zu deiner Verdrahtung passen</li>
-      <li><span class="feat-star">✦</span>Wie du aufhörst, dich als „zu viel" zu sehen</li>
-    </ul>
-
-    <div id="form-wrap">
-      <div class="optin">
-        <input type="text"  id="name-in"  placeholder="Dein Vorname"          autocomplete="given-name"/>
-        <input type="email" id="email-in" placeholder="Deine E-Mail-Adresse"  autocomplete="email"/>
-        <button class="btn-optin" id="submit-btn" onclick="subscribe()">
-          Kostenlose Leseprobe sichern →
-        </button>
+      <div class="book-stage reveal" aria-label="Cover des Workbooks Stilles ADHS">
+        <div class="book-shadow"></div>
+        <article class="book-cover">
+          <div class="cover-brand">SENSIA NOVA</div>
+          <div class="cover-title"><em>Stilles</em> ADHS</div>
+          <div class="cover-ornament"><span></span><img src="assets/gold-star.svg" alt=""><span></span></div>
+          <div class="cover-subtitle">EIN GUIDE &amp; WORKBOOK FÜR FRAUEN<br>MIT SPÄTER ADHS-DIAGNOSE</div>
+          <div class="cover-bottom">VERSTEHEN. UMSETZEN. AUFBLÜHEN.</div>
+          <div class="cover-author">ANNA-DENIZ ATMIS</div>
+        </article>
       </div>
-      <p class="optin-note">Du erhältst auch den Sensia Nova Newsletter. Jederzeit abmeldbar.</p>
-      <div class="error-msg" id="error-msg"></div>
+    </section>
+
+    <section id="leseprobe" class="sample-section">
+      <div class="section-shell sample-grid">
+        <div class="sample-copy reveal">
+          <p class="eyebrow">Erst kennenlernen, dann entscheiden</p>
+          <h2>Hol dir zuerst die kostenlose Leseprobe.</h2>
+          <p>Trag dich mit deiner E-Mail-Adresse ein und erhalte einen ersten Einblick in das Workbook. So kannst du in Ruhe prüfen, ob Sprache, Aufbau und Inhalte zu dir passen.</p>
+          <ul class="quiet-list">
+            <li>kostenlos und unverbindlich</li>
+            <li>direkt per E-Mail</li>
+            <li>mit ausgewählten Originalseiten</li>
+          </ul>
+        </div>
+        <div class="signup-card reveal">
+          <p class="card-kicker">Kostenlose Leseprobe</p>
+          <h3>Ein paar Seiten nur für dich.</h3>
+          <p>Kein Druck. Kein „Du musst". Nur ein ehrlicher erster Einblick.</p>
+          <div id="mailerlite-form">
+            <form class="sample-form" id="sample-form" novalidate>
+              <label for="email">E-Mail-Adresse</label>
+              <div class="form-row">
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="du@beispiel.de" required>
+                <button class="button button-primary" type="submit">Leseprobe senden</button>
+              </div>
+              <label class="consent"><input type="checkbox" required><span>Ich möchte die Leseprobe und begleitende E-Mails von Sensia Nova erhalten. Abmeldung jederzeit möglich.</span></label>
+              <p class="form-note">Mit der Anmeldung akzeptierst du die <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+              <p class="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workbook" class="editorial-section section-shell">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Das vollständige Workbook</p>
+        <h2>Kein Lehrbuch. Kein Reparaturprogramm.<br>Ein ruhiger Ort zum Verstehen.</h2>
+      </div>
+      <div class="editorial-grid">
+        <div class="editorial-item reveal"><span>01</span><h3>Verstehen</h3><p>Was stilles ADHS bedeuten kann und warum viele Frauen sich erst spät wiedererkennen.</p></div>
+        <div class="editorial-item reveal"><span>02</span><h3>Einordnen</h3><p>Eigene Muster, Überforderung und innere Widersprüche klarer sehen – ohne Selbstvorwürfe.</p></div>
+        <div class="editorial-item reveal"><span>03</span><h3>Umsetzen</h3><p>Reflexionen und alltagstaugliche Impulse, die sich an dein Gehirn anpassen statt umgekehrt.</p></div>
+      </div>
+    </section>
+
+    <section id="inhalt" class="preview-section">
+      <div class="section-shell preview-grid">
+        <div class="page-stack reveal" aria-hidden="true">
+          <div class="sample-page page-back"><span>MINI-AHA</span><div></div><p>Das hier ist kein Workbook, das dich „reparieren" will.</p></div>
+          <div class="sample-page page-front"><span>WILLKOMMEN</span><h3>Bevor du blätterst.</h3><em>90 Sekunden Lesezeit. Versprochen.</em><p>Ich bin eine Frau, die spät mit ADHS diagnostiziert wurde und gelernt hat, mit meinem Gehirn zu arbeiten, statt gegen es.</p></div>
+        </div>
+        <div class="preview-copy reveal">
+          <p class="eyebrow">Blick ins Innere</p>
+          <h2>Leicht lesbar. Sanft gestaltet. Inhaltlich fundiert.</h2>
+          <p>Viel Weißraum, klare Kapitel, kurze Textabschnitte und wiederkehrende Orientierung helfen dabei, die Inhalte auch an unruhigen oder erschöpften Tagen aufzunehmen.</p>
+          <blockquote>„Es ist das, was ich gebraucht hätte, als alles laut war."</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section id="kaufen" class="purchase-section section-shell reveal">
+      <div>
+        <p class="eyebrow">Du möchtest direkt weiterlesen?</p>
+        <h2>Das vollständige Workbook kaufen.</h2>
+        <p>Du musst nicht erst die Leseprobe bestellen. Wenn du bereits weißt, dass das Workbook zu dir passt, kannst du es direkt kaufen.</p>
+      </div>
+      <div class="purchase-action">
+        <a id="buy-button" class="button button-primary button-large" href="#">Workbook kaufen</a>
+        <p id="price-label">Preis wird im Checkout angezeigt</p>
+      </div>
+    </section>
+
+    <section class="author-note">
+      <div class="section-shell narrow reveal">
+        <img src="assets/gold-star.svg" alt="" class="small-star">
+        <p class="eyebrow">Von Frau zu Frau</p>
+        <h2>Du bist nicht falsch.<br>Vielleicht wurde dein Gehirn nur lange falsch gelesen.</h2>
+        <p>Ich habe dieses Workbook geschrieben, weil ich mir nach meiner späten Diagnose genau so einen Begleiter gewünscht hätte: ehrlich, verständlich, warm und ohne den Anspruch, mich zu optimieren.</p>
+        <p class="signature">Anna-Deniz Atmis</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-shell footer-inner">
+      <div><strong>SENSIA NOVA</strong><p>Verstehen. Umsetzen. Aufblühen.</p></div>
+      <div class="footer-links"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><a href="#top">Nach oben ↑</a></div>
     </div>
+  </footer>
 
-    <div class="success-msg" id="success-msg">
-      ✦ &nbsp;Schau in dein Postfach — deine Leseprobe ist unterwegs.<br/>
-      <span style="font-size:0.78rem;opacity:0.7;display:block;margin-top:0.4rem">Bereit für das vollständige Workbook?</span>
-      <a href="#workbook">Workbook kaufen →</a>
-    </div>
-  </div>
-</section>
-
-<!-- BUY WORKBOOK -->
-<section class="buy-section" id="workbook">
-  <div class="buy-eyebrow fade-up">Das vollständige Workbook</div>
-  <h2 class="fade-up">Bereit, tiefer einzutauchen?</h2>
-  <p class="fade-up">Das komplette Sensia Nova Workbook begleitet dich mit Übungen, Reflexionen und konkreten Strategien für ein Leben im Einklang mit dir selbst.</p>
-  <!-- UPDATE price and href before launch -->
-  <div class="buy-price fade-up">€ 27 <span>einmalig</span></div>
-  <a href="#" class="btn-buy fade-up">
-    Workbook kaufen
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </a>
-  <p class="buy-note fade-up">Digitaler Download · Sofort verfügbar · Sicherer Kauf</p>
-</section>
-
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="about-img-wrap fade-up">
-    <div class="about-img">
-      <img src="https://res.cloudinary.com/dnisvqb31/image/upload/v1780766809/WhatsApp_Image_2026-06-06_at_19.24.30_mxhvn8.jpg"
-           alt="Anna – Sensia Nova"
-           loading="lazy"/>
-    </div>
-  </div>
-  <div class="about-text">
-    <div class="eyebrow fade-up">Hi, ich bin Anna</div>
-    <h2 class="fade-up">Ich war genau dort, wo du gerade bist.</h2>
-    <p class="fade-up">Den größten Teil meines Lebens dachte ich, alles so intensiv zu fühlen, sei ein Problem, das ich lösen müsste. Es war keins — es war ein Signal.</p>
-    <p class="fade-up">Sensia Nova ist aus diesem Wandel entstanden. Ich bin hier, damit sensitive Menschen aufhören zu schrumpfen und anfangen zu wachsen.</p>
-  </div>
-</section>
-
-<!-- CONNECT -->
-<section class="connect" id="connect">
-  <div class="connect-star-bg">✦</div>
-  <div class="eyebrow fade-up">Community</div>
-  <h2 class="fade-up">Lass uns verbinden.</h2>
-  <p class="fade-up">Finde mich dort, wo sensitive Seelen sich treffen.</p>
-  <div class="social-row fade-up">
-    <a href="#" class="social-btn">Instagram</a>
-    <a href="#" class="social-btn">Newsletter</a>
-    <a href="#" class="social-btn">LinkedIn</a>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-brand">
-    <span class="footer-star">✦</span>
-    <span class="footer-logo">Sensia Nova</span>
-  </div>
-  <div class="footer-copy">© 2026 Sensia Nova · Alle Rechte vorbehalten</div>
-</footer>
-
-<script>
-/* =====================================================
-   NAV — scroll blur + hamburger
-   ===================================================== */
-(function(){
-  var nav    = document.getElementById('main-nav');
-  var burger = document.getElementById('hamburger');
-  var drawer = document.getElementById('nav-drawer');
-
-  window.addEventListener('scroll', function(){
-    nav.classList.toggle('scrolled', window.scrollY > 30);
-  }, {passive: true});
-
-  burger.addEventListener('click', function(){
-    var open = burger.classList.toggle('open');
-    drawer.classList.toggle('open', open);
-    burger.setAttribute('aria-expanded', open);
-    drawer.setAttribute('aria-hidden', !open);
-  });
-
-  document.querySelectorAll('#nav-drawer a').forEach(function(a){
-    a.addEventListener('click', function(){
-      burger.classList.remove('open');
-      drawer.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
-    });
-  });
-})();
-
-/* =====================================================
-   NAV — active section highlight
-   ===================================================== */
-(function(){
-  var links = document.querySelectorAll('.nav-links a[data-section]');
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){
-          l.classList.toggle('active', l.dataset.section === e.target.id);
-        });
-      }
-    });
-  }, {rootMargin: '-30% 0px -60% 0px'});
-
-  document.querySelectorAll('section[id]').forEach(function(s){ obs.observe(s); });
-})();
-
-/* =====================================================
-   SCROLL ANIMATIONS
-   ===================================================== */
-(function(){
-  if(!window.IntersectionObserver) return;
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
-    });
-  }, {rootMargin: '0px 0px -50px 0px', threshold: 0.1});
-
-  document.querySelectorAll('.fade-up').forEach(function(el){ obs.observe(el); });
-})();
-
-/* =====================================================
-   MAILERLITE FORM
-   Replace ML_API_KEY and ML_GROUP_ID with your values.
-   Find them at: https://app.mailerlite.com/integrations/api
-   ===================================================== */
-var ML_API_KEY  = 'YOUR_MAILERLITE_API_KEY';  /* ← replace */
-var ML_GROUP_ID = 'YOUR_GROUP_ID';            /* ← replace */
-
-function subscribe(){
-  var nameEl  = document.getElementById('name-in');
-  var emailEl = document.getElementById('email-in');
-  var btn     = document.getElementById('submit-btn');
-  var errEl   = document.getElementById('error-msg');
-  var name    = nameEl.value.trim();
-  var email   = emailEl.value.trim();
-
-  errEl.style.display = 'none';
-
-  if(!name){  showErr('Bitte gib deinen Vornamen ein.');  nameEl.focus();  return; }
-  if(!email || !/\S+@\S+\.\S+/.test(email)){
-    showErr('Bitte gib eine gültige E-Mail-Adresse ein.'); emailEl.focus(); return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Einen Moment …';
-
-  fetch('https://connect.mailerlite.com/api/subscribers', {
-    method: 'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer ' + ML_API_KEY,
-      'Accept':'application/json'
-    },
-    body: JSON.stringify({email: email, fields:{name: name}, groups:[ML_GROUP_ID]})
-  })
-  .then(function(res){
-    if(res.ok || res.status === 200 || res.status === 201){
-      document.getElementById('form-wrap').style.display   = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-    } else {
-      return res.json().then(function(d){
-        showErr(d.message || 'Es ist ein Fehler aufgetreten. Bitte versuch es erneut.');
-      });
-    }
-  })
-  .catch(function(){
-    showErr('Verbindungsfehler. Bitte versuch es erneut.');
-  })
-  .finally(function(){
-    if(btn.disabled){ btn.disabled = false; btn.textContent = 'Kostenlose Leseprobe sichern →'; }
-  });
-}
-
-function showErr(msg){
-  var el = document.getElementById('error-msg');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-/* Enter-key support */
-document.getElementById('name-in').addEventListener('keydown', function(e){
-  if(e.key === 'Enter') document.getElementById('email-in').focus();
-});
-document.getElementById('email-in').addEventListener('keydown', function(e){
-  if(e.key === 'Enter') subscribe();
-});
-</script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
