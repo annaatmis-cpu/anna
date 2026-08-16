@@ -1,24 +1,33 @@
 /* ============================================================
    SENSIA NOVA – Landing Page Styles
-   Fonts: DM Sans (body) + Playfair Display (headings/display)
+   Design System v2: Bodoni Moda (display) + Public Sans (body)
    ============================================================ */
 
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --white:      #FEFDFC;
-  --stone-100:  #F5F3EF;
-  --stone-200:  #ECEAE5;
-  --stone-400:  #C5C0B5;
-  --gold:       #C9AE74;
-  --blue:       #A9CCE4;
-  --text:       #303030;
-  --text-2:     #686868;
-  --text-3:     #8A8985;
+  /* Neutrals */
+  --white:      #FCFBF8;
+  --stone-100:  #F7F4EF;
+  --stone-200:  #E5E3DD;
+  --stone-400:  #C5BFB5;
+  --sand:       #F3EBDD;
+  --line:       #E7E0D7;
 
-  --body:    'DM Sans', system-ui, sans-serif;
-  --display: 'Playfair Display', Georgia, serif;
+  /* Accents */
+  --gold:       #C6A96B;
+  --blue:       #BFD9EA;
+  --blue-btn:   #91BCD8;
+  --olive:      #C8D1C5;
+
+  /* Text */
+  --text:       #373737;
+  --text-2:     #6A6A67;
+  --text-3:     #9A9997;
+
+  --body:    'Public Sans', 'Suisse International', 'Neue Haas Grotesk', Arial, sans-serif;
+  --display: 'Bodoni Moda', 'Canela', 'IvyPresto', 'Noe Display', Georgia, serif;
 
   --max-w: 1160px;
   --shell-px: clamp(20px, 5vw, 80px);
@@ -146,22 +155,22 @@ blockquote {
 }
 
 .button-primary {
-  background: var(--text);
-  color: var(--white);
+  background: var(--blue-btn);
+  color: #fff;
 }
 .button-primary:hover {
-  background: #1a1a1a;
-  box-shadow: 0 4px 20px rgba(48,48,48,.25);
+  background: #7aaec9;
+  box-shadow: 0 4px 20px rgba(145,188,216,.35);
   transform: translateY(-1px);
 }
 
 .button-secondary {
   background: transparent;
   color: var(--text);
-  border: 1.5px solid var(--stone-400);
+  border: 1.5px solid var(--stone-200);
 }
 .button-secondary:hover {
-  border-color: var(--text);
+  border-color: var(--text-2);
   background: var(--stone-100);
 }
 
@@ -218,17 +227,16 @@ blockquote {
 }
 .site-nav a:hover { color: var(--text); }
 .site-nav .nav-buy {
-  color: var(--text);
-  border: 1.5px solid var(--stone-400);
+  color: #fff;
+  background: var(--blue-btn);
   border-radius: var(--radius-sm);
   padding: 8px 18px;
   font-size: 13px;
   font-weight: 600;
-  transition: border-color var(--transition), background var(--transition);
+  transition: background var(--transition);
 }
 .site-nav .nav-buy:hover {
-  border-color: var(--text);
-  background: var(--stone-100);
+  background: #7aaec9;
 }
 
 /* Hamburger */
@@ -376,7 +384,7 @@ blockquote {
 
 /* ---------- Sample / Leseprobe ---------- */
 .sample-section {
-  background: var(--stone-100);
+  background: var(--sand);
   padding-block: var(--section-py);
 }
 
@@ -410,8 +418,8 @@ blockquote {
 }
 
 .signup-card {
-  background: var(--white);
-  border: 1px solid var(--stone-200);
+  background: var(--stone-100);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: clamp(24px, 4vw, 48px);
   box-shadow: var(--shadow-card);
@@ -456,7 +464,7 @@ blockquote {
   font-size: 15px;
   color: var(--text);
   background: var(--white);
-  border: 1.5px solid var(--stone-200);
+  border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   outline: none;
@@ -545,7 +553,7 @@ blockquote {
 
 /* ---------- Preview / Inhalt section ---------- */
 .preview-section {
-  background: var(--stone-100);
+  background: var(--sand);
   padding-block: var(--section-py);
 }
 
@@ -645,6 +653,7 @@ blockquote {
   background: var(--stone-100);
   padding-block: var(--section-py);
 }
+
 
 .narrow {
   max-width: 640px;
